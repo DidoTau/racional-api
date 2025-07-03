@@ -134,23 +134,113 @@ racional-api/
 
 ### Transaction Endpoints
 - `POST /api/transactions` - Register a deposit or withdrawal transaction
+#### Example Payload
+```json
+{
+  "userId": "user-123",
+  "amount": 100000,
+  "type": "deposit",
+  "description": "Depósito inicial",
+  "status": "completed"
+}
+
+```
 - `GET /api/users/:userId/transactions` - Get all transactions for a specific user
 
 ### Stock Order Endpoints
 - `POST /api/stock-orders` - Register a buy or sell stock order
+#### Example Payload
+```json
+{
+  "userId": "user-123",
+  "stock": "AAPL",
+  "quantity": 10,
+  "type": "buy",
+  "price": 150,
+  "description": "Compra de acciones Apple",
+  "status": "executed"
+}
+
+```
 - `GET /api/users/:userId/stock-orders` - Get all stock orders for a specific user
 
 ### User Endpoints
+- `POST /api/users`- Create user
+#### Example Payload
+```json
+{
+  "name": "Richard Hendricks",
+  "email": "rhendricks@pipepiper.com",
+  "phone": "+56912345678"
+}
+```
 - `GET /api/users/:userId` - Get user information
 - `PUT /api/users/:userId` - Update user personal information
+#### Example Payload
+```json
+{
+  "name": "Richard",
+  "email": "rhendricks@pipepiper.com",
+  "phone": "+56912345678"
+}
+```
+
 
 ### Portfolio Endpoints
+- `POST /api/portfolios``
+#### Example Payload
+```json
+{
+  "userId": "user-123",
+  "name": "Mi Portafolio",
+  "description": "Portafolio de prueba",
+  "holdings": [
+    {
+      "stock": "AAPL",
+      "quantity": 5,
+      "averagePrice": 145
+    },
+    {
+      "stock": "TSLA",
+      "quantity": 2,
+      "averagePrice": 700
+    }
+  ]
+}
+
+```
 - `GET /api/users/:userId/portfolio` - Get user's portfolio
 - `PUT /api/portfolios/:portfolioId` - Update portfolio information
+#### Example Payload
+```json
+{
+  "name": "Portafolio actualizado",
+  "description": "Ahora con nuevo nombre"
+}
+```
 - `GET /api/portfolios/:portfolioId/total` - Get portfolio total value and holdings
+- `POST /api/portfolios/:portfolioId/holdings` - Add a new holding to a portfolio
+#### Example Payload
+```json
+{
+  "stock": "MSFT",
+  "quantity": 3,
+  "averagePrice": 310
+}
+```
+- `PUT /api/portfolios/:portfolioId/holdings/:holdingId` - Update a specifig holding
+#### Example Payload
+```json
+{
+  "stock": "MSFT",
+  "quantity": 5,
+  "averagePrice": 310
+}
+```
 
 ### Integration Endpoints
 - `GET /api/users/:userId/movements` - Get user's recent movements (transactions and orders)
+
 
 ## 🛠️ Development
 
@@ -237,4 +327,5 @@ NODE_ENV=development
 
 ## Notes
 
-> **Disclaimer 1**: I've never used Prisma before, so there might be some mistakes or non-standard usage of the ORM — but hey, it works! 😄
+> **Disclaimer**: I've never used Prisma before, so there might be some mistakes or non-standard usage of the ORM — but hey, it works! 😄
+> **POSTMAN**: You can also test the API using the Postman collection provided in the file `Racional_API.postman_collection.json` 
