@@ -53,9 +53,7 @@ app.post('/api/transactions', async (req, res, next) => {
     });
     res.status(201).json(transaction);
   } catch (error: any) {
-    if (error.code === 'P2003') {
-      return res.status(400).json({ error: 'Usuario no encontrado' });
-    }
+    
     return next(error);
   }
 });
