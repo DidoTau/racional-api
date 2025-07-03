@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: racional-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: racional_db
+      POSTGRES_USER: racional_user
+      POSTGRES_PASSWORD: racional_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - racional-network
+
+  # Optional: pgAdmin for database management
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: racional-pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@racional.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - "8080:80"
+    depends_on:
+      - postgres
+    networks:
+      - racional-network
+
+volumes:
+  postgres_data:
+
+networks:
+  racional-network:
+    driver: bridge 

@@ -1,0 +1,108 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String  @id @default(uuid())
+  name        String
+  email       String  @unique
+  phone       String?
+  portfolio   Portfolio?
+  transactions  Transaction[]
+  stockOrders StockOrder[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Transaction {
+  id          String   @id @default(uuid())
+  userId      String
+  type        TransactionType
+  amount      Decimal  @db.Decimal(10, 2)
+  description String?
+  status      TransactionStatus @default(PENDING)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum TransactionType {
+  DEPOSIT
+  WITHDRAWAL
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+model StockOrder {
+  id          String        @id @default(uuid())
+  userId      String
+  stock       String         
+  quantity    Int
+  price       Decimal       @db.Decimal(10, 2)
+  type        OrderType
+  status      OrderStatus   @default(PENDING)
+  description String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum OrderType {
+  BUY
+  SELL
+}
+
+enum OrderStatus {
+  PENDING
+  COMPLETED
+  CANCELLED
+}
+
+model Portfolio {
+  id          String   @id @default(uuid())
+  userId      String   @unique
+  name        String
+  description String?
+  holdings    Holding[] 
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Holding {
+  id          String  @id @default(uuid())
+  portfolioId String 
+  stock       String
+  quantity    Float 
+  averagePrice Decimal @db.Decimal(10, 2)
+  portfolio   Portfolio @relation(fields:[portfolioId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+
+
+
+
+
+
+
+
+
+
