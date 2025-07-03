@@ -235,6 +235,6 @@ NODE_ENV=development
 ```
 
 
+## Notes
 
-
-> **Disclaimer 1**: I've never used Prisma until now, so maybe there might be some errors or not standard use of the orm. But it works jeje
+> **Disclaimer 1**: I've never used Prisma before, so there might be some mistakes or non-standard usage of the ORM — but hey, it works! 😄
