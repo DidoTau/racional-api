@@ -87,10 +87,11 @@ This command will:
 
 ### 3. Verify Tables
 After running migrations, you should see the following tables in your database:
-- `users`
-- `portfolios`
-- `holdings`
-- `base_models` (if included in schema)
+- `User`: Stores user account information (name, email, phone, etc.)
+- `Portfolio`: Represents a user's investment portfolio, including its name and description
+- `StockOrder`: Records buy or sell orders for stocks placed by users
+- `Transaction`: Logs deposit or withdrawal transactions for user accounts
+- `Holding`: Tracks individual stock holdings within a portfolio (stock symbol, quantity, average price)
 
 ## 🏃‍♂️ Running the Application
 
@@ -128,9 +129,6 @@ racional-api/
 - `npm run build` - Build TypeScript to JavaScript
 - `npm start` - Start production server
 - `npm test` - Run all tests
-- `npm run test:watch` - Run tests in watch mode
-- `npm run test:coverage` - Run tests with coverage report
-- `npm run test:ci` - Run tests for CI/CD environments
 
 ## 🌐 API Endpoints
 
@@ -174,8 +172,6 @@ npm run test:ci
 # Run specific test file
 npm test -- transactions.test.ts
 
-# Run tests matching a pattern
-npm test -- --testNamePattern="should create a deposit"
 ```
 
 ### Database Commands
@@ -190,11 +186,6 @@ npx prisma migrate dev --name <migration-name>
 # Reset database (⚠️ This will delete all data)
 npx prisma migrate reset
 
-# Open Prisma Studio (database GUI)
-npx prisma studio
-
-# Push schema changes without migrations (development only)
-npx prisma db push
 ```
 
 ### Docker Commands
@@ -243,14 +234,7 @@ PORT=3000
 NODE_ENV=development
 ```
 
-## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Run tests
-5. Submit a pull request
 
-## 📄 License
 
-This project is licensed under the ISC License.
+> **Disclaimer 1**: I've never used Prisma until now, so maybe there might be some errors or not standard use of the orm. But it works jeje
