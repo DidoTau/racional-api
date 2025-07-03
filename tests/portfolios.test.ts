@@ -1,10 +1,15 @@
 import request from 'supertest';
 import app from '../src/app';
-import { createTestUser } from './helpers/testHelpers';
+import { v4 as uuid } from 'uuid';
 
 describe('Portfolio API', () => {
   it('should create a portfolio with holdings', async () => {
-    const user = await createTestUser();
+    const userRes = await request(app).post('/api/users').send({
+      name: 'Portfolio User',
+      email: `port_${uuid()}@example.com`,
+      phone: '+555555555'
+    }).expect(201);
+    const user = userRes.body;
     const portfolioData = {
       userId: user.id,
       name: 'My Portfolio',
@@ -26,7 +31,12 @@ describe('Portfolio API', () => {
   });
 
   it('should update portfolio information', async () => {
-    const user = await createTestUser();
+    const userRes2 = await request(app).post('/api/users').send({
+      name: 'Portfolio User 2',
+      email: `port_${uuid()}@example.com`,
+      phone: '+666666666'
+    }).expect(201);
+    const user = userRes2.body;
     const portfolioRes = await request(app)
       .post('/api/portfolios')
       .send({ userId: user.id, name: 'Old Name', description: 'Old desc', holdings: [] })
@@ -48,7 +58,12 @@ describe('Portfolio API', () => {
   });
 
   it('should add, update, and delete a holding', async () => {
-    const user = await createTestUser();
+    const userRes3 = await request(app).post('/api/users').send({
+      name: 'Portfolio User 3',
+      email: `port_${uuid()}@example.com`,
+      phone: '+777777777'
+    }).expect(201);
+    const user = userRes3.body;
     const portfolioRes = await request(app)
       .post('/api/portfolios')
       .send({ userId: user.id, name: 'Portfolio', description: '', holdings: [] })
@@ -72,7 +87,12 @@ describe('Portfolio API', () => {
   });
 
   it('should get portfolio total value', async () => {
-    const user = await createTestUser();
+    const userRes4 = await request(app).post('/api/users').send({
+      name: 'Portfolio User 4',
+      email: `port_${uuid()}@example.com`,
+      phone: '+888888888'
+    }).expect(201);
+    const user = userRes4.body;
     const portfolioRes = await request(app)
       .post('/api/portfolios')
       .send({ userId: user.id, name: 'Portfolio', description: '', holdings: [] })

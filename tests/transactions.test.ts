@@ -1,10 +1,16 @@
 import request from 'supertest';
 import app from '../src/app';
-import { createTestUser } from './helpers/testHelpers';
+import { v4 as uuid } from 'uuid';
 
 describe('Transaction API', () => {
   it('should create a deposit transaction', async () => {
-    const user = await createTestUser();
+    const userData = {
+      name: 'Tx User',
+      email: `tx_${uuid()}@example.com`,
+      phone: '+111111111'
+    };
+    const userRes = await request(app).post('/api/users').send(userData).expect(201);
+    const user = userRes.body;
     const transactionData = {
       userId: user.id,
       type: 'DEPOSIT',
@@ -26,7 +32,13 @@ describe('Transaction API', () => {
   });
 
   it('should create a withdrawal transaction', async () => {
-    const user = await createTestUser();
+    const userData = {
+      name: 'Tx User 2',
+      email: `tx_${uuid()}@example.com`,
+      phone: '+222222222'
+    };
+    const userRes = await request(app).post('/api/users').send(userData).expect(201);
+    const user = userRes.body;
     const transactionData = {
       userId: user.id,
       type: 'WITHDRAWAL',
